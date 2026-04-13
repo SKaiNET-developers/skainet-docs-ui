@@ -47,7 +47,12 @@ module.exports = (src, dest, preview) => () => {
         },
       },
     ]),
-    postcssVar({ preserve: preview }),
+    // Always preserve CSS custom properties at runtime — the SKaiNET
+    // theme system relies on `[data-theme="dark"]` swapping `var(--*)`
+    // values at runtime, which only works if the source `:root` block
+    // is kept. Upstream's `preserve: preview` would inline + strip the
+    // properties at bundle time and break the dark mode toggle.
+    postcssVar({ preserve: true }),
     // NOTE to make vars.css available to all top-level stylesheets, use the next line in place of the previous one
     //postcssVar({ importFrom: path.join(src, 'css', 'vars.css'), preserve: preview }),
     preview ? postcssCalc : () => {}, // cssnano already applies postcssCalc

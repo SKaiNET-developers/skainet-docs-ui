@@ -1,0 +1,71 @@
+/*
+ * SKaiNET typography.
+ *
+ * Loads the three SKaiNET design-system typefaces from Google Fonts:
+ *
+ *   Orbitron — display / headings (matches kotlin-theme/Type.kt)
+ *   Inter    — body
+ *   Fira Code — code blocks and inline code
+ *
+ * Google Fonts is used in v1 to keep the bundle tree small. A future
+ * release can self-host the .woff2 files under src/css/fonts/ to remove
+ * the runtime CDN dependency for fully-offline doc sites.
+ *
+ * Family names match the values declared in vars.css:
+ *   --body-font-family        → "Inter, ..."
+ *   --monospace-font-family   → "Fira Code, ..."
+ *   --display-font-family     → "Orbitron, ..."   (added below)
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap");
+
+:root {
+  --display-font-family: "Orbitron", "Inter", system-ui, -apple-system, sans-serif;
+  --display-font-weight: 700;
+  --display-font-weight-strong: 900;
+}
+
+/*
+ * The `.doc` class is the wrapper Antora puts around every rendered
+ * page body. Targeting it instead of the global `h1`-`h6` selectors
+ * prevents the Orbitron font from leaking into the navbar / toolbar /
+ * sidebar headings, which want to stay in the body Inter for compact
+ * UI chrome.
+ */
+.doc h1,
+.doc h2,
+.doc h3,
+.doc h4,
+.doc h5,
+.doc h6 {
+  font-family: var(--display-font-family);
+  font-weight: var(--display-font-weight);
+  letter-spacing: -0.01em;
+}
+
+.doc h1 {
+  font-weight: var(--display-font-weight-strong);
+  letter-spacing: -0.02em;
+}
+
+/*
+ * Inter ships several stylistic sets and character variants that
+ * tighten its appearance for UI use. Enable the ones we care about
+ * globally on body so they apply to navbar text too.
+ */
+body {
+  font-feature-settings: "cv11", "ss01", "ss03";
+}
+
+/*
+ * Fira Code ligatures (e.g. `->` rendering as a single arrow glyph)
+ * are visually busy in code blocks where we want exact character
+ * fidelity for things like `->>` in mermaid sequence diagrams. Disable
+ * them globally; can be reenabled per-language in a follow-up release.
+ */
+code,
+pre,
+kbd,
+samp {
+  font-feature-settings: "liga" 0, "calt" 0;
+}
