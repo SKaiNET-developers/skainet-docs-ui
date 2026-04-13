@@ -1,2 +1,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    {{!--
+      Inline theme bootstrap. Runs before the first paint so the
+      page never flashes the wrong theme on a dark-preference reload.
+      The companion click-handler script for the toggle button lives
+      in src/js/00-theme-toggle.js (bundled into js/site.js).
+    --}}
+    <script>
+      (function () {
+        var k = 'skainet-theme';
+        var stored = null;
+        try { stored = localStorage.getItem(k); } catch (e) {}
+        var theme = (stored === 'light' || stored === 'dark')
+          ? stored
+          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
