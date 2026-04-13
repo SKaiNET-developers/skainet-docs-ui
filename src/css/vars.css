@@ -1,127 +1,162 @@
+/*
+ * SKaiNET design system tokens.
+ *
+ * Source of truth: /Users/A9973957/projects/toolscalling05/kotlin-theme/Color.kt
+ * + ExtendedColors.kt — the same palette used by the SKaiNET Compose
+ * Multiplatform UI. Translated into CSS custom properties below.
+ *
+ * Layout:
+ *   :root                      — palette + light-mode semantic tokens
+ *   [data-theme="dark"]        — dark-mode semantic-token overrides
+ *
+ * The palette block (--color-*) keeps the upstream antora-ui-default
+ * variable names (smoke / gray / jet / white / black) so we don't have
+ * to rewrite every other stylesheet under src/css/. The values are
+ * mapped to SKaiNET-equivalent shades. Semantic tokens that hardcoded
+ * the upstream blue (e.g. --link-font-color) are switched to the
+ * SKaiNET red. Dark mode is handled by overriding the semantic tokens
+ * directly — no need to touch the palette at runtime.
+ */
+
 :root {
-  /* colors */
+  /* ---- SKaiNET brand ---- */
+  --color-skainet-red: #dc2626;
+  --color-skainet-red-glow: #ef4444;
+  --color-skainet-red-on: #fff;
+
+  /* ---- palette (upstream names, SKaiNET-mapped values) ---- */
   --color-white: #fff;
   --color-smoke-10: #fefefe;
-  --color-smoke-30: #fafafa;
-  --color-smoke-50: #f5f5f5;
-  --color-smoke-70: #f0f0f0;
-  --color-smoke-90: #e1e1e1;
-  --color-gray-10: #c1c1c1;
-  --color-gray-30: #9c9c9c;
-  --color-gray-40: #8e8e8e;
-  --color-gray-50: #808080;
-  --color-gray-70: #5d5d5d;
-  --color-jet-20: #4a4a4a;
-  --color-jet-30: #424242;
-  --color-jet-50: #333;
-  --color-jet-70: #222;
-  --color-jet-80: #191919;
+  --color-smoke-30: #fafafa;          /* SKaiNET light bg */
+  --color-smoke-50: #f8fafc;          /* SKaiNET light surface variant */
+  --color-smoke-70: #f1f5f9;          /* SKaiNET light muted */
+  --color-smoke-90: #e2e8f0;          /* SKaiNET light border */
+  --color-gray-10: #cbd5e1;
+  --color-gray-30: #94a3b8;
+  --color-gray-40: #94a3b8;
+  --color-gray-50: #64748b;           /* SKaiNET light muted fg */
+  --color-gray-70: #475569;
+  --color-jet-20: #1e293b;            /* SKaiNET light secondary fg */
+  --color-jet-30: #1e293b;
+  --color-jet-50: #0f172a;            /* SKaiNET light fg */
+  --color-jet-70: #0f172a;
+  --color-jet-80: #0f172a;
   --color-black: #000;
-  /* fonts */
-  --rem-base: 18; /* used to compute rem value from desired pixel value (e.g., calc(18 / var(--rem-base) * 1rem) = 18px) */
-  --body-font-size: 1.0625em; /* 17px */
-  --body-font-size--desktop: 1.125em; /* 18px */
-  --body-font-size--print: 0.9375em; /* 15px */
-  --body-line-height: 1.15;
-  --body-font-color: var(--color-jet-70);
-  --body-font-family: "Roboto", sans-serif;
+
+  /* ---- fonts ---- */
+  --rem-base: 18;
+  --body-font-size: 1.0625em;
+  --body-font-size--desktop: 1.125em;
+  --body-font-size--print: 0.9375em;
+  --body-line-height: 1.6;
+  --body-font-color: var(--color-jet-50);
+  --body-font-family: "Inter", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
   --body-font-weight-bold: 600;
-  --monospace-font-family: "Roboto Mono", monospace;
+  --monospace-font-family: "Fira Code", ui-monospace, "SFMono-Regular", "Menlo", monospace;
   --monospace-font-weight-bold: 600;
-  /* base */
-  --body-background: var(--color-white);
-  --panel-background: var(--color-smoke-30);
-  --panel-border-color: var(--color-smoke-90);
-  --scrollbar-track-color: var(--color-smoke-30);
-  --scrollbar-thumb-color: var(--color-gray-10);
-  --scrollbar_hover-thumb-color: var(--color-gray-30);
-  /* navbar */
-  --navbar-background: var(--color-jet-80);
-  --navbar-font-color: var(--color-white);
-  --navbar_hover-background: var(--color-black);
-  --navbar-button-background: var(--color-white);
-  --navbar-button-border-color: var(--panel-border-color);
-  --navbar-button-font-color: var(--body-font-color);
-  --navbar-menu-border-color: var(--panel-border-color);
-  --navbar-menu-background: var(--color-white);
-  --navbar-menu-font-color: var(--body-font-color);
-  --navbar-menu_hover-background: var(--color-smoke-50);
-  /* nav */
-  --nav-background: var(--panel-background);
-  --nav-border-color: var(--color-gray-10);
-  --nav-line-height: 1.35;
-  --nav-heading-font-color: var(--color-jet-30);
-  --nav-muted-color: var(--color-gray-70);
-  --nav-panel-divider-color: var(--color-smoke-90);
-  --nav-secondary-background: var(--color-smoke-70);
-  /* toolbar */
-  --toolbar-background: var(--panel-background);
-  --toolbar-border-color: var(--panel-border-color);
-  --toolbar-font-color: var(--color-gray-70);
-  --toolbar-muted-color: var(--color-gray-40);
-  --page-version-menu-background: var(--color-smoke-70);
-  --page-version-missing-font-color: var(--color-gray-40);
-  /* admonitions */
-  --caution-color: #a0439c;
-  --caution-on-color: var(--color-white);
-  --important-color: #d32f2f;
-  --important-on-color: var(--color-white);
-  --note-color: #217ee7;
-  --note-on-color: var(--color-white);
-  --tip-color: #41af46;
-  --tip-on-color: var(--color-white);
-  --warning-color: #e18114;
-  --warning-on-color: var(--color-white);
-  /* doc */
-  --doc-font-color: var(--color-jet-50);
+
+  /* ---- base ---- */
+  --body-background: #fafafa;
+  --panel-background: #f8fafc;
+  --panel-border-color: #e2e8f0;
+  --scrollbar-track-color: transparent;
+  --scrollbar-thumb-color: rgb(100 116 139 / 0.4);
+  --scrollbar_hover-thumb-color: rgb(100 116 139 / 0.6);
+
+  /* ---- navbar (top header bar) ---- */
+  --navbar-background: #fff;
+  --navbar-font-color: #0f172a;
+  --navbar_hover-background: #f1f5f9;
+  --navbar-button-background: #fff;
+  --navbar-button-border-color: #e2e8f0;
+  --navbar-button-font-color: #0f172a;
+  --navbar-menu-border-color: #e2e8f0;
+  --navbar-menu-background: #fff;
+  --navbar-menu-font-color: #0f172a;
+  --navbar-menu_hover-background: #f1f5f9;
+
+  /* ---- nav (left sidebar) ---- */
+  --nav-background: #f8fafc;
+  --nav-border-color: #e2e8f0;
+  --nav-line-height: 1.45;
+  --nav-heading-font-color: #0f172a;
+  --nav-muted-color: #64748b;
+  --nav-panel-divider-color: #e2e8f0;
+  --nav-secondary-background: #f1f5f9;
+
+  /* ---- toolbar ---- */
+  --toolbar-background: #fff;
+  --toolbar-border-color: #e2e8f0;
+  --toolbar-font-color: #475569;
+  --toolbar-muted-color: #94a3b8;
+  --page-version-menu-background: #f1f5f9;
+  --page-version-missing-font-color: #94a3b8;
+
+  /* ---- admonitions ---- */
+  --caution-color: #dc2626;
+  --caution-on-color: #fff;
+  --important-color: #dc2626;
+  --important-on-color: #fff;
+  --note-color: #475569;
+  --note-on-color: #fff;
+  --tip-color: #16a34a;
+  --tip-on-color: #fff;
+  --warning-color: #ea580c;
+  --warning-on-color: #fff;
+
+  /* ---- doc body ---- */
+  --doc-font-color: #0f172a;
   --doc-font-size: inherit;
   --doc-font-size--desktop: calc(17 / var(--rem-base) * 1rem);
-  --doc-line-height: 1.6;
+  --doc-line-height: 1.7;
   --doc-margin: 0 auto;
   --doc-margin--desktop: 0 2rem;
-  --heading-font-color: var(--color-jet-80);
-  --heading-font-weight: normal;
-  --alt-heading-font-weight: var(--body-font-weight-bold);
-  --section-divider-color: var(--panel-border-color);
-  --link-font-color: #1565c0;
-  --link_hover-font-color: #104d92;
-  --link_unresolved-font-color: var(--important-color);
-  --abstract-background: var(--color-smoke-70);
-  --abstract-font-color: var(--color-jet-20);
-  --abstract-border-color: var(--panel-border-color);
-  --admonition-background: var(--panel-background);
-  --admonition-label-font-weight: var(--body-font-weight-bold);
-  --caption-font-color: var(--color-gray-70);
+  --heading-font-color: #0f172a;
+  --heading-font-weight: 700;
+  --alt-heading-font-weight: 700;
+  --section-divider-color: #e2e8f0;
+  --link-font-color: var(--color-skainet-red);
+  --link_hover-font-color: var(--color-skainet-red-glow);
+  --link_unresolved-font-color: var(--color-skainet-red);
+  --abstract-background: #f8fafc;
+  --abstract-font-color: #1e293b;
+  --abstract-border-color: #e2e8f0;
+  --admonition-background: #f8fafc;
+  --admonition-label-font-weight: 600;
+  --caption-font-color: #475569;
   --caption-font-style: italic;
-  --caption-font-weight: var(--body-font-weight-bold);
-  --code-background: var(--panel-background);
-  --code-font-color: var(--body-font-color);
-  --example-background: var(--color-white);
-  --example-border-color: var(--color-gray-70);
-  --kbd-background: var(--panel-background);
-  --kbd-border-color: var(--color-gray-10);
-  --pre-background: var(--panel-background);
-  --pre-border-color: var(--panel-border-color);
-  --pre-annotation-font-color: var(--color-gray-50);
-  --quote-background: var(--panel-background);
-  --quote-border-color: var(--color-gray-70);
-  --quote-font-color: var(--color-gray-70);
-  --quote-attribution-font-color: var(--color-gray-40);
-  --sidebar-background: var(--color-smoke-90);
-  --table-border-color: var(--panel-border-color);
-  --table-stripe-background: var(--panel-background);
-  --table-footer-background: linear-gradient(to bottom, var(--color-smoke-70) 0%, var(--color-white) 100%);
-  /* toc */
-  --toc-font-color: var(--nav-muted-color);
-  --toc-heading-font-color: var(--doc-font-color);
-  --toc-border-color: var(--panel-border-color);
-  --toc-line-height: 1.2;
-  /* footer */
-  --footer-line-height: var(--doc-line-height);
-  --footer-background: var(--color-smoke-90);
-  --footer-font-color: var(--color-gray-70);
-  --footer-link-font-color: var(--color-jet-80);
-  /* dimensions and positioning */
+  --caption-font-weight: 600;
+  --code-background: #f6f8fa;
+  --code-font-color: #24292f;
+  --example-background: #fff;
+  --example-border-color: #e2e8f0;
+  --kbd-background: #f1f5f9;
+  --kbd-border-color: #cbd5e1;
+  --pre-background: #f6f8fa;
+  --pre-border-color: #d0d7de;
+  --pre-annotation-font-color: #94a3b8;
+  --quote-background: #f8fafc;
+  --quote-border-color: var(--color-skainet-red);
+  --quote-font-color: #475569;
+  --quote-attribution-font-color: #94a3b8;
+  --sidebar-background: #f1f5f9;
+  --table-border-color: #e2e8f0;
+  --table-stripe-background: #f8fafc;
+  --table-footer-background: linear-gradient(to bottom, #f1f5f9 0%, #fff 100%);
+
+  /* ---- toc (right "on this page") ---- */
+  --toc-font-color: #64748b;
+  --toc-heading-font-color: #0f172a;
+  --toc-border-color: #e2e8f0;
+  --toc-line-height: 1.4;
+
+  /* ---- footer ---- */
+  --footer-line-height: 1.7;
+  --footer-background: #f1f5f9;
+  --footer-font-color: #475569;
+  --footer-link-font-color: var(--color-skainet-red);
+
+  /* ---- dimensions and positioning (unchanged from upstream) ---- */
   --navbar-height: calc(63 / var(--rem-base) * 1rem);
   --toolbar-height: calc(45 / var(--rem-base) * 1rem);
   --drawer-height: var(--toolbar-height);
@@ -138,9 +173,97 @@
   --toc-width--widescreen: calc(216 / var(--rem-base) * 1rem);
   --doc-max-width: calc(720 / var(--rem-base) * 1rem);
   --doc-max-width--desktop: calc(828 / var(--rem-base) * 1rem);
-  /* stacking */
+
+  /* ---- stacking ---- */
   --z-index-nav: 1;
   --z-index-toolbar: 2;
   --z-index-page-version-menu: 3;
   --z-index-navbar: 4;
+}
+
+/*
+ * Dark mode — overrides only the semantic tokens that need to flip.
+ * The palette block above stays put; the semantic tokens get
+ * remapped to SKaiNET dark surfaces from kotlin-theme/Color.kt.
+ *
+ * Activated via the `[data-theme="dark"]` attribute on `<html>`,
+ * set by the theme-toggle JS in src/js/01-theme-toggle.js (Phase 4).
+ */
+[data-theme="dark"] {
+  /* base */
+  --body-background: #0a0b0d;
+  --panel-background: #0f1114;
+  --panel-border-color: #262b31;
+  --scrollbar-track-color: transparent;
+  --scrollbar-thumb-color: rgb(107 114 128 / 0.4);
+  --scrollbar_hover-thumb-color: rgb(107 114 128 / 0.6);
+
+  /* navbar */
+  --navbar-background: #0f1114;
+  --navbar-font-color: #f2f2f2;
+  --navbar_hover-background: #121418;
+  --navbar-button-background: #121418;
+  --navbar-button-border-color: #262b31;
+  --navbar-button-font-color: #f2f2f2;
+  --navbar-menu-border-color: #262b31;
+  --navbar-menu-background: #0f1114;
+  --navbar-menu-font-color: #f2f2f2;
+  --navbar-menu_hover-background: #121418;
+
+  /* nav */
+  --nav-background: #0f1114;
+  --nav-border-color: #262b31;
+  --nav-heading-font-color: #f2f2f2;
+  --nav-muted-color: #6b7280;
+  --nav-panel-divider-color: #262b31;
+  --nav-secondary-background: #121418;
+
+  /* toolbar */
+  --toolbar-background: #0f1114;
+  --toolbar-border-color: #262b31;
+  --toolbar-font-color: #d9d9d9;
+  --toolbar-muted-color: #6b7280;
+  --page-version-menu-background: #121418;
+  --page-version-missing-font-color: #6b7280;
+
+  /* admonitions stay the same color but on dark surfaces */
+  --tip-color: #22c55e;
+  --warning-color: #f97316;
+
+  /* doc body */
+  --body-font-color: #d9d9d9;
+  --doc-font-color: #f2f2f2;
+  --heading-font-color: #f2f2f2;
+  --section-divider-color: #262b31;
+  --abstract-background: #121418;
+  --abstract-font-color: #d9d9d9;
+  --abstract-border-color: #262b31;
+  --admonition-background: #121418;
+  --caption-font-color: #6b7280;
+  --code-background: #0d1117;
+  --code-font-color: #e6edf3;
+  --example-background: #121418;
+  --example-border-color: #262b31;
+  --kbd-background: #121418;
+  --kbd-border-color: #262b31;
+  --pre-background: #0d1117;     /* GitHub dark — matches structured-coroutines */
+  --pre-border-color: #30363d;
+  --pre-annotation-font-color: #6b7280;
+  --quote-background: #121418;
+  --quote-font-color: #d9d9d9;
+  --quote-attribution-font-color: #6b7280;
+  --sidebar-background: #121418;
+  --table-border-color: #262b31;
+  --table-stripe-background: #121418;
+  --table-footer-background: linear-gradient(to bottom, #121418 0%, #0a0b0d 100%);
+
+  /* toc */
+  --toc-font-color: #6b7280;
+  --toc-heading-font-color: #f2f2f2;
+  --toc-border-color: #262b31;
+
+  /* footer */
+  --footer-background: #0f1114;
+  --footer-font-color: #6b7280;
+  --footer-link-font-color: var(--color-skainet-red-glow);
 }
