@@ -140,3 +140,149 @@
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.04), 0 1px 2px rgb(0 0 0 / 0.06);
   }
 }
+
+/*
+ * ---- Diátaxis card grid ----
+ *
+ * Apply via [.card-grid] role on a top-level AsciiDoc unordered
+ * list. Each `<li>` becomes a clickable card. Use this on the
+ * landing page to surface the four Diátaxis sections (Tutorials /
+ * How-to / Reference / Explanation) without writing raw HTML.
+ *
+ * Pattern in the source .adoc:
+ *
+ *   [.card-grid]
+ *   * xref:tutorials/...[*Tutorials*] +
+ *     Learning-oriented short description.
+ *   * xref:how-to/...[*How-to guides*] +
+ *     Task-oriented recipes.
+ *   * xref:reference/...[*Reference*] +
+ *     Information-oriented lookup.
+ *   * xref:explanation/...[*Explanation*] +
+ *     Understanding-oriented background.
+ */
+
+/*
+ * AsciiDoc list role `[.card-grid]` lands as `.ulist.card-grid` on
+ * a wrapping `<div>`, with the actual `<ul>` nested inside. Style
+ * the inner `<ul>` as the grid container so the cards line up
+ * regardless of which level Antora attaches the role to.
+ */
+.doc .card-grid,
+.doc ul.card-grid {
+  list-style: none;
+  margin: 2rem 0;
+  padding: 0;
+}
+
+.doc .card-grid > ul,
+.doc ul.card-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.doc .card-grid li,
+.doc ul.card-grid > li {
+  margin: 0;
+  padding: 1.5rem 1.5rem 1.25rem;
+  background: var(--example-background);
+  border: 1px solid var(--panel-border-color);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/*
+ * Subtle accent stripe on the top edge in the SKaiNET red. Positioned
+ * absolutely so it doesn't shift the card content. Visible on hover
+ * only — gives the cards a clear "active" affordance without being
+ * loud at rest.
+ */
+.doc .card-grid > li::before,
+.doc ul.card-grid > li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-skainet-red);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.doc .card-grid > li:hover,
+.doc ul.card-grid > li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.08), 0 2px 6px rgb(0 0 0 / 0.06);
+  border-color: var(--color-skainet-red);
+}
+
+.doc .card-grid > li:hover::before,
+.doc ul.card-grid > li:hover::before {
+  opacity: 1;
+}
+
+/*
+ * The first child of each card is the AsciiDoc-rendered paragraph
+ * containing the bold xref title. Tighten its margins so the title
+ * sits cleanly above the description.
+ */
+.doc .card-grid > li > p,
+.doc ul.card-grid > li > p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Title link inside the card: bigger, heavier, no underline. */
+.doc .card-grid > li > p > a,
+.doc .card-grid > li > p > strong > a,
+.doc ul.card-grid > li > p > a,
+.doc ul.card-grid > li > p > strong > a {
+  font-family: var(--display-font-family);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: var(--heading-font-color);
+}
+
+.doc .card-grid > li:hover > p > a,
+.doc .card-grid > li:hover > p > strong > a,
+.doc ul.card-grid > li:hover > p > a,
+.doc ul.card-grid > li:hover > p > strong > a {
+  color: var(--color-skainet-red);
+}
+
+/*
+ * Make the entire card click-target by stretching the title link
+ * across the whole card via an absolute pseudo-overlay. AsciiDoc
+ * doesn't let us set arbitrary HTML on the <li>, so we use the
+ * title link as the anchor.
+ */
+.doc .card-grid > li > p > a::after,
+.doc .card-grid > li > p > strong > a::after,
+.doc ul.card-grid > li > p > a::after,
+.doc ul.card-grid > li > p > strong > a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Description text below the title — muted, smaller. */
+.doc .card-grid > li > p:nth-of-type(2),
+.doc ul.card-grid > li > p:nth-of-type(2) {
+  color: var(--nav-muted-color);
+  font-size: 0.95em;
+  margin-top: 0.5rem;
+}
