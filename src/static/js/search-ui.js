@@ -45,8 +45,12 @@ function initSearchUi () {
   const ensureEngine = () => {
     if (!enginePromise) {
       field.setAttribute('aria-busy', 'true')
-      enginePromise = import(`${config.enginePath}/skainet-search.js`)
-        .then(({ skainetSearch }) => skainetSearch.init({ bundleUrl: config.bundlePath, limit: 25 }))
+      // data-engine-path/data-bundle-path are page-relative, but a bare dynamic import()
+      // resolves against THIS module's URL (the UI's js/ dir, not the page) — resolve both
+      // against the document explicitly.
+      enginePromise = import(new URL(`${config.enginePath}/skainet-search.js`, document.baseURI).href)
+        .then(({ skainetSearch }) =>
+          skainetSearch.init({ bundleUrl: new URL(config.bundlePath, document.baseURI).href, limit: 25 }))
         .then((handle) => {
           field.removeAttribute('aria-busy')
           return handle
