@@ -207,6 +207,34 @@ If you need to include source maps in the bundle, you can do so by setting the `
 
 In this case, the bundle will include the source maps, which can be used for debugging your production site.
 
+== Site Search (SKaiNET)
+
+This UI ships the look and feel for https://github.com/SKaiNET-developers/SKaiNET-rag/tree/main/site-search[SKaiNET Site Search]: client-side hybrid search (BM25 + SKaiNET vectors) answered entirely in the visitor's browser.
+The division of labor: the `@skainet/antora-site-search` extension indexes the site at build time and publishes the engine under `_search/`; this UI owns the markup ([.path]_src/partials/search-scripts.hbs_), the behavior ([.path]_src/static/js/search-ui.js_, a native ES module served verbatim), and the styles ([.path]_src/css/search.css_, riding entirely on the semantic tokens in [.path]_vars.css_, so dark mode needs no extra rules).
+
+To enable search on a site using this UI, add the extension to the playbook:
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: '@skainet/antora-site-search'
+----
+
+That's the whole integration: the extension sets `SITE_SEARCH_PROVIDER`, which activates the search input this UI already renders, and the UI-supplied `search-scripts` partial wins over the extension's fallback.
+
+Behavior notes:
+
+* The engine (~155 KB compressed) loads lazily on the first focus or pointerenter of the search input -- visitors who never search download none of it.
+  The input's disabled style appears only if the engine fails to initialize.
+* Result markup keeps antora-lunr-extension's CSS classes (`search-result-dropdown-menu`, `search-result-item`, `search-result-document-title`, `search-result-document-hit`, `search-result-section-title`, `search-result-highlight`, `search-result-component-header`), so themes and overrides written for the lunr UI port unchanged.
+* The component facet contract is also lunr's: a checked `input[data-facet-filter="component:name"]` inside `#search-field` narrows results to that component.
+* Keyboard: kbd:[/] or kbd:[s] focuses the input (opt out with `data-search-shortcuts="false"` on the script tag), kbd:[↑]/kbd:[↓] move through results with `aria-activedescendant`, kbd:[Enter] navigates, kbd:[Esc] clears.
+* `SITE_SEARCH_SNIPPET_LENGTH` (env) tunes the snippet window; the default is 100 characters.
+
+The preview exercises the full stack offline: [.path]_preview-src/_search/_ holds a committed engine build and a `search.lrb` indexed from the preview pages themselves.
+Run `SITE_SEARCH_PROVIDER=skainet gulp preview` and type in the search box.
+
 == Copyright and License
 
 Copyright (C) 2017-present OpenDevise Inc. and the Antora Project.

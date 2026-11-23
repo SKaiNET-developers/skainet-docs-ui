@@ -1,0 +1,133 @@
+/*
+ * SKaiNET site search: the dropdown rendered by static/js/search-ui.js.
+ *
+ * Class names mirror antora-lunr-extension's stylesheet so themes and overrides written for
+ * the lunr UI port unchanged. Every color rides on the navbar-menu semantic tokens from
+ * vars.css, which [data-theme="dark"] already overrides — dark mode costs this file nothing.
+ */
+
+#search-field {
+  position: relative;
+}
+
+#search-input[aria-expanded="true"] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#search-field[aria-busy="true"] #search-input {
+  background-image: linear-gradient(90deg, transparent, rgb(148 163 184 / 0.25), transparent);
+  background-size: 200% 100%;
+  animation: search-busy 1.2s linear infinite;
+}
+
+@keyframes search-busy {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+.search-result-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: var(--z-index-navbar, 4);
+  width: max(100%, 20rem);
+  max-width: min(32rem, 90vw);
+  max-height: calc(100vh - 5rem);
+  overflow-y: auto;
+  background: var(--navbar-menu-background, var(--panel-background));
+  color: var(--navbar-menu-font-color, var(--body-font-color));
+  border: 1px solid var(--navbar-menu-border-color, var(--panel-border-color));
+  border-radius: 0 0 0.25rem 0.25rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+  font-size: calc(14 / var(--rem-base, 18) * 1rem);
+  text-align: left;
+}
+
+.search-result-dropdown-menu:empty {
+  display: none;
+}
+
+.search-result-component-header {
+  padding: 0.5rem 0.75rem 0.25rem;
+  font-size: 0.75rem;
+  font-weight: var(--body-font-weight-bold, 600);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--nav-muted-color, var(--toolbar-muted-color));
+  border-bottom: 1px solid var(--navbar-menu-border-color, var(--panel-border-color));
+}
+
+.search-result-item {
+  border-bottom: 1px solid var(--navbar-menu-border-color, var(--panel-border-color));
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item > a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.search-result-item > a:hover,
+.search-result-item > a:focus,
+.search-result-item > a.search-result-highlighted {
+  background: var(--navbar-menu_hover-background, rgb(148 163 184 / 0.12));
+  outline: none;
+}
+
+.search-result-document-title {
+  font-weight: var(--body-font-weight-bold, 600);
+  color: var(--navbar-menu-font-color, var(--body-font-color));
+}
+
+.search-result-section-title {
+  font-size: 0.85em;
+  color: var(--nav-muted-color, var(--toolbar-muted-color));
+  margin-top: 0.125rem;
+}
+
+.search-result-document-hit {
+  margin-top: 0.25rem;
+  line-height: 1.45;
+  color: var(--navbar-menu-font-color, var(--body-font-color));
+  opacity: 0.85;
+  overflow-wrap: anywhere;
+}
+
+.search-result-highlight {
+  color: var(--color-skainet-red-glow);
+  font-weight: var(--body-font-weight-bold, 600);
+}
+
+.search-live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The facet row adopters can add inside #search-field (lunr's has-filter contract). */
+#search-field.has-filter .filter {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+  font-size: 0.75rem;
+  color: var(--navbar-font-color);
+}
+
+@media screen and (max-width: 1023.5px) {
+  .search-result-dropdown-menu {
+    width: calc(100vw - 2rem);
+    right: -0.5rem;
+  }
+}
