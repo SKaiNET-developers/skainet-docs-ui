@@ -225,7 +225,7 @@ That's the whole integration: the extension sets `SITE_SEARCH_PROVIDER`, which a
 
 Behavior notes:
 
-* The engine (~250 KB compressed) loads lazily on the first focus or pointerenter of the search input -- visitors who never search download none of it.
+* The engine (~155 KB compressed) loads lazily on the first focus or pointerenter of the search input -- visitors who never search download none of it.
   The input's disabled style appears only if the engine fails to initialize.
 * Result markup keeps antora-lunr-extension's CSS classes (`search-result-dropdown-menu`, `search-result-item`, `search-result-document-title`, `search-result-document-hit`, `search-result-section-title`, `search-result-highlight`, `search-result-component-header`), so themes and overrides written for the lunr UI port unchanged.
 * The component facet contract is also lunr's: a checked `input[data-facet-filter="component:name"]` inside `#search-field` narrows results to that component.

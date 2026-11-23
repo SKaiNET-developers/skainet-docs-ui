@@ -4,7 +4,7 @@
   js/search-ui.js owns the behavior. Dataset names follow the antora-lunr-extension convention
   (search-ui-script, data-site-root-path, data-snippet-length) so existing overrides port;
   data-engine-path / data-bundle-path point at the assets the extension publishes under
-  _search/. The script is a native ES module: the engine (~250 KB compressed wasm) is NOT
+  _search/. The script is a native ES module: the engine (~155 KB compressed wasm) is NOT
   loaded here — search-ui.js defers it until the search input is first touched.
 --}}
 <script id="search-ui-script" type="module" async src="{{{uiRootPath}}}/js/search-ui.js"
