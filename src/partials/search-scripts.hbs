@@ -1,0 +1,15 @@
+{{!--
+  SKaiNET site search (provider `skainet`): a UI-supplied search-scripts partial always wins
+  over the one @skainet/antora-site-search injects, so this file owns the wiring and
+  js/search-ui.js owns the behavior. Dataset names follow the antora-lunr-extension convention
+  (search-ui-script, data-site-root-path, data-snippet-length) so existing overrides port;
+  data-engine-path / data-bundle-path point at the assets the extension publishes under
+  _search/. The script is a native ES module: the engine (~250 KB compressed wasm) is NOT
+  loaded here — search-ui.js defers it until the search input is first touched.
+--}}
+<script id="search-ui-script" type="module" async src="{{{uiRootPath}}}/js/search-ui.js"
+  data-site-root-path="{{{siteRootPath}}}"
+  data-engine-path="{{{siteRootPath}}}/_search"
+  data-bundle-path="{{{siteRootPath}}}/_search/search.lrb"
+  data-snippet-length="{{#if env.SITE_SEARCH_SNIPPET_LENGTH}}{{env.SITE_SEARCH_SNIPPET_LENGTH}}{{else}}100{{/if}}"{{#if page.component}}
+  data-page-component="{{page.component.name}}"{{/if}}></script>

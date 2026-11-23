@@ -117,8 +117,11 @@ function compileLayouts (src) {
 }
 
 function copyImages (src, dest) {
+  // _search/** carries the committed site-search fixture (engine + search.lrb), so
+  // `gulp preview` exercises the full search stack offline, exactly as the
+  // @skainet/antora-site-search extension would publish it.
   return vfs
-    .src('**/*.{png,svg}', { base: src, cwd: src })
+    .src(['**/*.{png,svg}', '_search/**/*'], { base: src, cwd: src })
     .pipe(vfs.dest(dest))
     .pipe(map((file, enc, next) => next()))
 }
